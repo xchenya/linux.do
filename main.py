@@ -3,6 +3,7 @@ import time
 import random
 import requests
 from tabulate import tabulate
+import markdown
 from playwright.sync_api import sync_playwright
 
 # 设置 PushPlus 的 Token 和发送请求的 URL
@@ -79,11 +80,12 @@ class LinuxDoBrowser:
         print(tabulate(info, headers=["项目", "当前", "要求"], tablefmt="pretty"))
 
         # 准备推送数据
-        msg = tabulate(info, headers=["项目", "当前", "要求"], tablefmt="pretty")
+        markdown_content = markdown.markdown(tabulate(info, headers=["项目", "当前", "要求"], tablefmt="grid"))
         push_data = {
             "token": PUSHPLUS_TOKEN,
-            "title": "Linux.do 登入信息",
-            "content": msg,
+            "title": "Connect Info",
+            "content": markdown_content,
+            "template": "markdown"  # 指定使用 Markdown 格式
         }
 
         # 发送推送请求到 PushPlus
