@@ -4,9 +4,9 @@
 
 ## 项目描述
 这个项目用于自动登录 [LinuxDo](https://linux.do/) 网站并随机读取几个帖子。它使用 Python 和 Playwright 自动化库模拟浏览器登录并浏览帖子。
-原作者：https://github.com/doveppp/linuxdo-checkin。
-因我使用GitHub fork 之后的项目常不能使用Actions，所以新建了一个。
-新增PushPlus推送功能
+- 原作者：https://github.com/doveppp/linuxdo-checkin 
+- 因我使用GitHub fork 之后的项目常不能使用Actions，所以新建了一个。
+- 新增PushPlus推送功能。
 
 ## 功能
 - 自动登录 LinuxDo。
