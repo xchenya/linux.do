@@ -80,7 +80,7 @@ class LinuxDoBrowser:
         print(tabulate(info, headers=["项目", "当前", "要求"], tablefmt="pretty"))
 
         # 准备推送数据
-        markdown_content = markdown.markdown(tabulate(info, headers=["项目", "当前", "要求"], tablefmt="grid"))
+        markdown_content = markdown.markdown(tabulate(info, headers=["项目", "当前", "要求"], tablefmt="pretty"))
         push_data = {
             "token": PUSHPLUS_TOKEN,
             "title": "Connect Info",
