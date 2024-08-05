@@ -100,9 +100,6 @@ class LinuxDoBrowser:
         # 发送推送请求到 PushPlus
         response_pushplus = requests.post(url_pushplus, data=push_data)
         
-        # 打印推送结果
-        print(f"PushPlus推送结果: {response_pushplus.text}")
-        
         page.close()
 
 if __name__ == "__main__":
