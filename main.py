@@ -1,17 +1,19 @@
 import os
 import time
 import random
-
+import requests
 from tabulate import tabulate
 from playwright.sync_api import sync_playwright
 
+# 设置 PushPlus 的 Token 和发送请求的 URL
+PUSHPLUS_TOKEN = 'bce8da1c4aff46e2bcb45924b7ea444b'
+url_pushplus = 'http://www.pushplus.plus/send'
 
+# 用户名和密码从环境变量中获取
 USERNAME = os.environ.get("USERNAME")
 PASSWORD = os.environ.get("PASSWORD")
 
-
 HOME_URL = "https://linux.do/"
-
 
 class LinuxDoBrowser:
     def __init__(self) -> None:
@@ -76,12 +78,27 @@ class LinuxDoBrowser:
         print("--------------Connect Info-----------------")
         print(tabulate(info, headers=["项目", "当前", "要求"], tablefmt="pretty"))
 
-        page.close()
+        # 准备推送数据
+        msg = tabulate(info, headers=["项目", "当前", "要求"], tablefmt="grid")
+        push_data = {
+            "token": PUSHPLUS_TOKEN,
+            "title": "Connect Info",
+            "content": msg,
+            "topic": "ConnectInfo"
+        }
 
+        # 发送推送请求到 PushPlus
+        response_pushplus = requests.post(url_pushplus, data=push_data)
+        
+        # 打印推送结果
+        print(f"PushPlus推送结果: {response_pushplus.text}")
+        
+        page.close()
 
 if __name__ == "__main__":
     if not USERNAME or not PASSWORD:
         print("Please set USERNAME and PASSWORD")
         exit(1)
+    
     l = LinuxDoBrowser()
     l.run()
