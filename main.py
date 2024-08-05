@@ -84,7 +84,6 @@ class LinuxDoBrowser:
             "token": PUSHPLUS_TOKEN,
             "title": "Connect Info",
             "content": msg,
-            "topic": "ConnectInfo"
         }
 
         # 发送推送请求到 PushPlus
