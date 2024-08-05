@@ -3,11 +3,11 @@ import time
 import random
 import requests
 from tabulate import tabulate
-import markdown
+
 from playwright.sync_api import sync_playwright
 
 # 设置 PushPlus 的 Token 和发送请求的 URL
-PUSHPLUS_TOKEN = 'bce8da1c4aff46e2bcb45924b7ea444b'
+PUSHPLUS_TOKEN = os.environ.get("PUSHTOKEN")
 url_pushplus = 'http://www.pushplus.plus/send'
 
 # 用户名和密码从环境变量中获取
@@ -76,16 +76,25 @@ class LinuxDoBrowser:
                 requirement = cells[2].text_content().strip()
                 info.append([project, current, requirement])
 
-        print("--------------Connect Info-----------------")
-        print(tabulate(info, headers=["项目", "当前", "要求"], tablefmt="pretty"))
+        # 使用 HTML 表格格式化数据，包含标题
+        html_table = "<table style='border-collapse: collapse; width: 100%; border: 1px solid black;'>"
+        html_table += "<caption>在过去 100 天内：</caption>"
+        html_table += "<tr><th style='border: 1px solid black; padding: 8px;'>项目</th><th style='border: 1px solid black; padding: 8px;'>当前</th><th style='border: 1px solid black; padding: 8px;'>要求</th></tr>"
+
+        for row in info:
+            html_table += "<tr>"
+            for cell in row:
+                html_table += f"<td style='border: 1px solid black; padding: 8px;'>{cell}</td>"
+            html_table += "</tr>"
+
+        html_table += "</table>"
 
         # 准备推送数据
-        markdown_content = markdown.markdown(tabulate(info, headers=["项目", "当前", "要求"], tablefmt="pretty"))
         push_data = {
             "token": PUSHPLUS_TOKEN,
-            "title": "Connect Info",
-            "content": markdown_content,
-            "template": "markdown"  # 指定使用 Markdown 格式
+            "title": "Linux.do Auto Check-in",
+            "content": html_table,
+            "template": "html"  # 指定使用 HTML 格式
         }
 
         # 发送推送请求到 PushPlus
