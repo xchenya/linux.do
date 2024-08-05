@@ -4,6 +4,9 @@
 
 ## 项目描述
 这个项目用于自动登录 [LinuxDo](https://linux.do/) 网站并随机读取几个帖子。它使用 Python 和 Playwright 自动化库模拟浏览器登录并浏览帖子。
+原作者：https://github.com/doveppp/linuxdo-checkin。
+因我使用GitHub fork 之后的项目常不能使用Actions，所以新建了一个。
+新增PushPlus推送功能
 
 ## 功能
 - 自动登录 LinuxDo。
@@ -24,6 +27,7 @@
 5. 分别添加 `USERNAME` 和 `PASSWORD`：
    - 在 `Name` 字段中输入 `USERNAME`，在 `Value` 字段中输入你的 LinuxDo 用户名或者邮箱。
    - 重复上述步骤，这次输入 `PASSWORD` 作为 `Name`，相应的密码作为 `Value`。
+   - 添加一个： `PUSHTOKEN` 作为 `Name`， `Value` 字段中输入你的PushPlus token。
 
 ### GitHub Actions 自动运行
 此项目的 GitHub Actions 配置会自动每天零点 UTC 时间运行签到脚本。你无需进行任何操作即可启动此自动化任务。GitHub Actions 的工作流文件位于 `.github/workflows` 目录下，文件名为 `daily-check-in.yml`。
