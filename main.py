@@ -82,7 +82,7 @@ class LinuxDoBrowser:
         msg = tabulate(info, headers=["项目", "当前", "要求"], tablefmt="pretty")
         push_data = {
             "token": PUSHPLUS_TOKEN,
-            "title": "Connect Info",
+            "title": "Linux.do 登入信息",
             "content": msg,
         }
 
