@@ -2,7 +2,7 @@ name: Daily Check-in
 
 on:
   schedule:
-    - cron: '0 2 * * *'  # 每天11点 UTC 时间执行
+    - cron: '0 4 * * *'  # 每天11点 UTC 时间执行
   workflow_dispatch:
 
 jobs:
