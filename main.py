@@ -42,14 +42,28 @@ class LinuxDoBrowser:
             return True
 
     def click_topic(self):
-        for topic in self.page.query_selector_all("#list-area .title"):
-            page = self.context.new_page()
-            page.goto(HOME_URL + topic.get_attribute("href"))
-            time.sleep(3)
-            if random.random() < 0.02:  # 100 * 0.02 * 30 = 60
-                self.click_like(page)
-            time.sleep(3)
-            page.close()
+    topics = self.page.query_selector_all("#list-area .title")
+    
+    # 调整要浏览的帖子数量，例如增加至浏览前 30 个帖子
+    max_browse_count = 30  
+    count = 0
+    
+    for topic in topics:
+        if count >= max_browse_count:
+            break
+        page = self.context.new_page()
+        page.goto(HOME_URL + topic.get_attribute("href"))
+        time.sleep(3)
+        
+        # 随机点赞或对所有帖子都点赞
+        if random.random() < 0.05:  # 点赞概率0
+            self.click_like(page)
+        
+        count += 1
+        time.sleep(3)
+        page.close()
+
+    print(f"已浏览 {count} 个帖子")
 
     def run(self):
         if not self.login():
