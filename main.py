@@ -40,30 +40,35 @@ class LinuxDoBrowser:
         else:
             print("Check in success")
             return True
-
     def click_topic(self):
-        time.sleep(5)
-        topics = self.page.query_selector_all("#list-area .title")
-        # 调整要浏览的帖子数量，例如增加至浏览前 30 个帖子
-        max_browse_count = 30  
-        count = 0
+      time.sleep(5)  # 增加等待时间，确保页面加载完成
+      topics = self.page.query_selector_all("#list-area .title")
+
+      # 输出调试信息，检查是否找到话题元素
+      if not topics:
+        print("未找到任何帖子，请检查选择器或页面加载情况。")
+        return
+      else:
+        print(f"找到 {len(topics)} 个帖子")
+
+      max_browse_count = min(30, len(topics))  # 设置最多浏览30个帖子，或者少于30时浏览所有帖子
+      topics_to_browse = random.sample(topics, max_browse_count)  # 随机选择要浏览的帖子
     
-    for topic in topics:
-        if count >= max_browse_count:
-            break
+      count = 0
+      for topic in topics_to_browse:
         page = self.context.new_page()
         page.goto(HOME_URL + topic.get_attribute("href"))
         time.sleep(3)
         
-        # 随机点赞或对所有帖子都点赞
-        if random.random() < 0.05:  # 点赞概率0
+        if random.random() < 0.10:  # 保持10%点赞几率
             self.click_like(page)
         
         count += 1
         time.sleep(3)
         page.close()
 
-    print(f"已浏览 {count} 个帖子")
+      print(f"已随机浏览 {count} 个帖子")
+
 
     def run(self):
         if not self.login():
