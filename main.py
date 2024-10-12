@@ -42,11 +42,10 @@ class LinuxDoBrowser:
             return True
 
     def click_topic(self):
-    topics = self.page.query_selector_all("#list-area .title")
-    
-    # 调整要浏览的帖子数量，例如增加至浏览前 30 个帖子
-    max_browse_count = 30  
-    count = 0
+        topics = self.page.query_selector_all("#list-area .title")
+        # 调整要浏览的帖子数量，例如增加至浏览前 30 个帖子
+        max_browse_count = 30  
+        count = 0
     
     for topic in topics:
         if count >= max_browse_count:
