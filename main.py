@@ -40,35 +40,54 @@ class LinuxDoBrowser:
         else:
             print("Check in success")
             return True
+
+    def scroll_down(self):
+        # 向下滚动以触发懒加载
+        self.page.evaluate("window.scrollBy(0, document.body.scrollHeight)")
+        time.sleep(2)  # 等待加载新内容
+
     def click_topic(self):
-      time.sleep(5)  # 增加等待时间，确保页面加载完成
-      topics = self.page.query_selector_all("#list-area .title")
+        max_browse_count = 300  # 希望浏览的帖子数
+        browsed_topics = []  # 存储浏览的帖子
+        total_count = 0
 
-      # 输出调试信息，检查是否找到话题元素
-      if not topics:
-        print("未找到任何帖子，请检查选择器或页面加载情况。")
-        return
-      else:
-        print(f"找到 {len(topics)} 个帖子")
+        while total_count < max_browse_count:
+            time.sleep(5)  # 确保页面加载完成
+            topics = self.page.query_selector_all("#list-area .title")
 
-      max_browse_count = min(300, len(topics))  # 设置最多浏览30个帖子，或者少于30时浏览所有帖子
-      topics_to_browse = topics[:max_browse_count]
-        
-      count = 0
-      for topic in topics_to_browse:
-        page = self.context.new_page()
-        page.goto(HOME_URL + topic.get_attribute("href"))
-        time.sleep(3)
-        
-        if random.random() < 0.10:  # 保持10%点赞几率
-            self.click_like(page)
-        
-        count += 1
-        time.sleep(3)
-        page.close()
+            if not topics:
+                print("未找到任何帖子，请检查选择器或页面加载情况。")
+                break
 
-      print(f"已随机浏览 {count} 个帖子")
+            # 排除已经浏览过的帖子
+            new_topics = [t for t in topics if t not in browsed_topics]
+            browsed_topics.extend(new_topics)
 
+            if not new_topics:
+                print("没有加载出更多帖子。")
+                break
+
+            for topic in new_topics:
+                if total_count >= max_browse_count:
+                    break
+
+                page = self.context.new_page()
+                page.goto(HOME_URL + topic.get_attribute("href"))
+                time.sleep(3)
+                
+                if random.random() < 0.10:  # 保持 10% 点赞几率
+                    self.click_like(page)
+
+                total_count += 1
+                time.sleep(3)
+                page.close()
+
+            print(f"已浏览 {total_count} 个帖子")
+
+            # 滚动以加载更多内容
+            self.scroll_down()
+
+        print(f"总共浏览了 {total_count} 个帖子")
 
     def run(self):
         if not self.login():
