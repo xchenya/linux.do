@@ -52,8 +52,8 @@ class LinuxDoBrowser:
         print(f"找到 {len(topics)} 个帖子")
 
       max_browse_count = min(300, len(topics))  # 设置最多浏览30个帖子，或者少于30时浏览所有帖子
-      topics_to_browse = random.sample(topics, max_browse_count)  # 随机选择要浏览的帖子
-    
+      topics_to_browse = topics[:max_browse_count]
+        
       count = 0
       for topic in topics_to_browse:
         page = self.context.new_page()
