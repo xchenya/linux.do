@@ -47,7 +47,7 @@ class LinuxDoBrowser:
         time.sleep(2)  # 等待加载新内容
 
     def click_topic(self):
-        max_browse_count = 300  # 希望浏览的帖子数
+        max_browse_count = 500  # 希望浏览的帖子数
         browsed_topics = []  # 存储浏览的帖子
         total_count = 0
 
@@ -115,6 +115,7 @@ class LinuxDoBrowser:
                 info.append([project, current, requirement])
 
         # 使用 HTML 表格格式化数据，包含标题
+        html_table += "<caption>在过去 100 天内：</caption>"
         html_table = "<table style='border-collapse: collapse; width: 100%; border: 1px solid black;'>"
         html_table += "<caption>在过去 100 天内：</caption>"
         html_table += "<tr><th style='border: 1px solid black; padding: 8px;'>项目</th><th style='border: 1px solid black; padding: 8px;'>当前</th><th style='border: 1px solid black; padding: 8px;'>要求</th></tr>"
@@ -130,7 +131,7 @@ class LinuxDoBrowser:
         # 准备推送数据
         push_data = {
             "token": PUSHPLUS_TOKEN,
-            "title": "Linux.do Auto Check-in",
+            "title": "Linux.do 自动签到",
             "content": html_table,
             "template": "html"  # 指定使用 HTML 格式
         }
