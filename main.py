@@ -115,7 +115,7 @@ class LinuxDoBrowser:
                 info.append([project, current, requirement])
 
         # 使用 HTML 表格格式化数据，包含标题
-        html_table += "<caption>在过去 100 天内：</caption>"
+
         html_table = "<table style='border-collapse: collapse; width: 100%; border: 1px solid black;'>"
         html_table += "<caption>在过去 100 天内：</caption>"
         html_table += "<tr><th style='border: 1px solid black; padding: 8px;'>项目</th><th style='border: 1px solid black; padding: 8px;'>当前</th><th style='border: 1px solid black; padding: 8px;'>要求</th></tr>"
