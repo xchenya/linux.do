@@ -75,7 +75,7 @@ class LinuxDoBrowser:
                 page.goto(HOME_URL + topic.get_attribute("href"))
                 time.sleep(3)
                 
-                if random.random() < 0.10:  # 保持 10% 点赞几率
+                if random.random() < 0.02:  # 保持 2% 点赞几率
                     self.click_like(page)
 
                 total_count += 1
